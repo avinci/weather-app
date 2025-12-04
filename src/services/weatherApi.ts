@@ -20,11 +20,9 @@ import { handleError, handleHttpError, validateLocationSearch } from './errorHan
 const API_BASE_URL = 'https://api.weatherapi.com/v1'
 const API_KEY = import.meta.env.VITE_WEATHERAPI_KEY
 const REQUEST_TIMEOUT = 10000 // 10 seconds
-const SEARCH_DEBOUNCE_MS = 300
 
 let axiosInstance: AxiosInstance
 let searchAbortController: AbortController | null = null
-let lastSearchTime = 0
 
 /**
  * Initialize axios instance
@@ -64,14 +62,6 @@ export async function searchLocations(
 
   try {
     const client = initializeAxios()
-
-    // Debounce the actual request
-    const now = Date.now()
-    if (now - lastSearchTime < SEARCH_DEBOUNCE_MS) {
-      // Return empty array if debounced
-      return []
-    }
-    lastSearchTime = now
 
     const response = await client.get<WeatherAPISearchResponse[]>('/search.json', {
       params: {
