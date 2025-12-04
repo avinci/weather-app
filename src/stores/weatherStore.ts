@@ -280,22 +280,27 @@ export const useWeatherStore = defineStore('weather', () => {
 
     currentLocationAttempted.value = true
 
-    const result = await geolocation.getLocation()
+    try {
+      const result = await geolocation.getLocation()
 
-    if (result.success && result.coordinates) {
-      // Fetch weather for detected location
-      const location = {
-        id: `${result.coordinates.latitude}:${result.coordinates.longitude}`,
-        name: '', // Will be filled by API
-        region: '',
-        country: '',
-        lat: result.coordinates.latitude,
-        lon: result.coordinates.longitude,
+      if (result && result.success && result.coordinates) {
+        // Fetch weather for detected location
+        const location = {
+          id: `${result.coordinates.latitude}:${result.coordinates.longitude}`,
+          name: '', // Will be filled by API
+          region: '',
+          country: '',
+          lat: result.coordinates.latitude,
+          lon: result.coordinates.longitude,
+        }
+
+        currentLocation.value = location
+        await fetchWeather(result.coordinates.latitude, result.coordinates.longitude)
+        return true
       }
-
-      currentLocation.value = location
-      await fetchWeather(result.coordinates.latitude, result.coordinates.longitude)
-      return true
+    } catch (error) {
+      // Silently fail if geolocation throws an error
+      console.debug('Geolocation detection failed:', error)
     }
 
     return false
