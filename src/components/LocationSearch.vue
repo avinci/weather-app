@@ -28,6 +28,7 @@ const highlightedIndex = ref(-1)
 const dropdownRef = ref<HTMLDivElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
+const isDebouncing = ref(false)
 
 // Computed
 const hasResults = computed(() => results.length > 0)
@@ -36,7 +37,10 @@ const displayText = computed(() => {
   if (isLoading) {
     return 'Searching...'
   }
-  if (searchInput.value && !hasResults.value && !isLoading) {
+  if (isDebouncing.value) {
+    return 'Searching...'
+  }
+  if (searchInput.value && !hasResults.value && !isLoading && !isDebouncing.value) {
     return 'No locations match your criteria. Please try a different search.'
   }
   return ''
@@ -62,13 +66,16 @@ function handleInput(event: Event) {
 
   if (query.trim()) {
     isDropdownOpen.value = true
+    isDebouncing.value = true
     debounceTimer = setTimeout(() => {
+      isDebouncing.value = false
       emit('search', query)
     }, 300)
   } else {
     // Empty query clears results and closes dropdown
     isDropdownOpen.value = false
     highlightedIndex.value = -1
+    isDebouncing.value = false
   }
 }
 
