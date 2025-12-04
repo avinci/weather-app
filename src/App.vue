@@ -2,6 +2,8 @@
 import { onMounted } from 'vue'
 import LocationSearch from './components/LocationSearch.vue'
 import ErrorMessage from './components/ErrorMessage.vue'
+import TemperatureToggle from './components/TemperatureToggle.vue'
+import CurrentWeather from './components/CurrentWeather.vue'
 import { useWeatherStore } from './stores/weatherStore'
 
 const store = useWeatherStore()
@@ -33,8 +35,13 @@ function handleRetrySearch() {
 <template>
   <div class="app-container">
     <header class="app-header">
-      <h1>Weather App</h1>
-      <p class="subtitle">Search for a location to get the current weather</p>
+      <div class="header-top">
+        <div>
+          <h1>Weather App</h1>
+          <p class="subtitle">Search for a location to get the current weather</p>
+        </div>
+        <TemperatureToggle />
+      </div>
     </header>
 
     <main class="app-main">
@@ -67,35 +74,11 @@ function handleRetrySearch() {
           </p>
         </div>
 
-        <!-- Weather Error -->
-        <ErrorMessage
-          :error="store.weatherError"
-          :on-retry="() => store.refreshWeather()"
-        />
-
-        <!-- Current Weather -->
-        <div v-if="store.currentWeatherForDisplay" class="current-weather">
-          <div class="temperature-display">
-            <div class="temperature-value">
-              {{ Math.round(store.currentWeatherForDisplay.temperature) }}°
-            </div>
-            <div class="temperature-details">
-              <p class="condition">{{ store.currentWeatherForDisplay.condition }}</p>
-              <p class="humidity">Humidity: {{ store.currentWeatherForDisplay.humidity }}%</p>
-              <p class="wind-speed">Wind: {{ Math.round(store.currentWeatherForDisplay.windSpeed) }} {{ store.temperatureUnit === 'F' ? 'mph' : 'km/h' }}</p>
-            </div>
-          </div>
-        </div>
+        <!-- Current Weather Container -->
+        <CurrentWeather />
 
         <!-- Weather Controls -->
         <div class="weather-controls">
-          <button
-            type="button"
-            class="control-button"
-            @click="store.toggleTemperatureUnit"
-          >
-            Switch to °{{ store.temperatureUnit === 'F' ? 'C' : 'F' }}
-          </button>
           <button
             type="button"
             class="control-button"
@@ -105,11 +88,6 @@ function handleRetrySearch() {
             {{ store.isRefreshing ? 'Refreshing...' : 'Refresh' }}
           </button>
         </div>
-
-        <!-- Last Updated -->
-        <p v-if="store.lastUpdated" class="last-updated">
-          Last updated: {{ store.formattedLastUpdated }}
-        </p>
       </section>
 
       <!-- Loading State -->
@@ -128,9 +106,17 @@ function handleRetrySearch() {
 }
 
 .app-header {
-  text-align: center;
   color: white;
   margin-bottom: 40px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .app-header h1 {
