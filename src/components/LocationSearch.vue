@@ -231,6 +231,8 @@ watch(
   border: 1px solid #d1d5db;
   border-radius: 6px;
   transition: border-color 200ms, box-shadow 200ms;
+  color: #1f2937;
+  background-color: white;
 }
 
 .search-input:focus {
