@@ -32,9 +32,6 @@ function initializeAxios(): AxiosInstance {
     axiosInstance = axios.create({
       baseURL: API_BASE_URL,
       timeout: REQUEST_TIMEOUT,
-      params: {
-        key: API_KEY,
-      },
     })
   }
   return axiosInstance
@@ -65,6 +62,7 @@ export async function searchLocations(
 
     const response = await client.get<WeatherAPISearchResponse[]>('/search.json', {
       params: {
+        key: API_KEY,
         q: query,
         aqi: 'no',
       },
@@ -108,6 +106,7 @@ export async function getWeatherByCoordinates(
 
     const response = await client.get<WeatherAPIResponse>('/forecast.json', {
       params: {
+        key: API_KEY,
         q: query,
         days: 7,
         aqi: 'no',

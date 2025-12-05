@@ -13,8 +13,6 @@ const props = withDefaults(defineProps<Props>(), {
   hasError: false,
 })
 
-const { results, isLoading } = props
-
 const emit = defineEmits<{
   search: [query: string]
   select: [location: LocationSearchResult]
@@ -31,16 +29,16 @@ let debounceTimer: ReturnType<typeof setTimeout> | null = null
 const isDebouncing = ref(false)
 
 // Computed
-const hasResults = computed(() => results.length > 0)
+const hasResults = computed(() => props.results.length > 0)
 
 const displayText = computed(() => {
-  if (isLoading) {
+  if (props.isLoading) {
     return 'Searching...'
   }
   if (isDebouncing.value) {
     return 'Searching...'
   }
-  if (searchInput.value && !hasResults.value && !isLoading && !isDebouncing.value) {
+  if (searchInput.value && !hasResults.value && !props.isLoading && !isDebouncing.value) {
     return 'No locations match your criteria. Please try a different search.'
   }
   return ''
@@ -98,7 +96,7 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault()
       highlightedIndex.value = Math.min(
         highlightedIndex.value + 1,
-        results.length - 1,
+        props.results.length - 1,
       )
       break
 
@@ -109,8 +107,8 @@ function handleKeyDown(event: KeyboardEvent) {
 
     case 'Enter':
       event.preventDefault()
-      if (highlightedIndex.value >= 0 && highlightedIndex.value < results.length) {
-        selectLocation(results[highlightedIndex.value]!)
+      if (highlightedIndex.value >= 0 && highlightedIndex.value < props.results.length) {
+        selectLocation(props.results[highlightedIndex.value]!)
       }
       break
 
@@ -154,7 +152,7 @@ onUnmounted(() => {
 
 // Watch for results changes
 watch(
-  () => results.length,
+  () => props.results.length,
   (newLength) => {
     if (newLength > 0 && searchInput.value.trim()) {
       // Open dropdown when results appear
