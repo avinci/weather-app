@@ -5,6 +5,7 @@ import ErrorMessage from './components/ErrorMessage.vue'
 import TemperatureToggle from './components/TemperatureToggle.vue'
 import CurrentWeather from './components/CurrentWeather.vue'
 import HourlyForecast from './components/HourlyForecast.vue'
+import DailyForecast from './components/DailyForecast.vue'
 import RefreshButton from './components/RefreshButton.vue'
 import { useWeatherStore } from './stores/weatherStore'
 
@@ -86,6 +87,9 @@ function handleRetrySearch() {
 
         <!-- Hourly Forecast Container -->
         <HourlyForecast />
+
+        <!-- Daily Forecast Container -->
+        <DailyForecast />
       </section>
 
       <!-- Loading State -->
