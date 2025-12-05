@@ -4,6 +4,8 @@ import LocationSearch from './components/LocationSearch.vue'
 import ErrorMessage from './components/ErrorMessage.vue'
 import TemperatureToggle from './components/TemperatureToggle.vue'
 import CurrentWeather from './components/CurrentWeather.vue'
+import HourlyForecast from './components/HourlyForecast.vue'
+import RefreshButton from './components/RefreshButton.vue'
 import { useWeatherStore } from './stores/weatherStore'
 
 const store = useWeatherStore()
@@ -79,15 +81,11 @@ function handleRetrySearch() {
 
         <!-- Weather Controls -->
         <div class="weather-controls">
-          <button
-            type="button"
-            class="control-button"
-            :disabled="store.isRefreshing"
-            @click="store.refreshWeather"
-          >
-            {{ store.isRefreshing ? 'Refreshing...' : 'Refresh' }}
-          </button>
+          <RefreshButton />
         </div>
+
+        <!-- Hourly Forecast Container -->
+        <HourlyForecast />
       </section>
 
       <!-- Loading State -->
