@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write 'src/**/*.{vue,ts,tsx,css,json}'",
+    "format:check": "prettier --check 'src/**/*.{vue,ts,tsx,css,json}'"
   },
   "dependencies": {
     "autoprefixer": "^10.4.22",
@@ -19,15 +23,23 @@
     "vue": "^3.5.24"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/ui": "^4.0.15",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-vue": "^10.6.2",
+    "globals": "^16.5.0",
     "happy-dom": "^20.0.11",
     "jsdom": "^27.2.0",
+    "prettier": "^3.7.4",
     "typescript": "~5.9.3",
+    "typescript-eslint": "^8.48.1",
     "vite": "^7.2.4",
     "vitest": "^4.0.15",
     "vue-tsc": "^3.1.4"

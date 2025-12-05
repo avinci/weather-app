@@ -8,6 +8,7 @@ import HourlyForecast from './components/HourlyForecast.vue'
 import DailyForecast from './components/DailyForecast.vue'
 import RefreshButton from './components/RefreshButton.vue'
 import { useWeatherStore } from './stores/weatherStore'
+import type { LocationSearchResult } from './types/weather'
 
 const store = useWeatherStore()
 
@@ -20,7 +21,7 @@ function handleLocationSearch(query: string) {
   store.searchLocations(query)
 }
 
-function handleLocationSelect(location: any) {
+function handleLocationSelect(location: LocationSearchResult) {
   store.selectLocation(location)
 }
 

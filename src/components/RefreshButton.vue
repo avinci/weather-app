@@ -7,7 +7,7 @@ const store = useWeatherStore()
 // Compute UI state
 const isRefreshing = computed(() => store.isRefreshing)
 const hasLoadedOnce = computed(() => store.weatherData.current !== null)
-const isDisabled = computed(() => !hasLoadedOnce || isRefreshing.value)
+const isDisabled = computed(() => !hasLoadedOnce.value || isRefreshing.value)
 const hasLocation = computed(() => store.currentLocation !== null)
 
 function handleClick() {
