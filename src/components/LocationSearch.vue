@@ -160,9 +160,6 @@ watch(
       // Open dropdown when results appear
       isDropdownOpen.value = true
       highlightedIndex.value = -1
-    } else if (newLength === 0 && !isLoading && !isDebouncing.value) {
-      // Clear input when results are cleared (e.g., when search is reset or location selected)
-      searchInput.value = ''
     }
   },
 )
